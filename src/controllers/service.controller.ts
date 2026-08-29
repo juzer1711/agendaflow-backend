@@ -1,0 +1,5 @@
+import type { Request, Response } from 'express'; import { idSchema, paginationSchema } from '../schemas/common'; import { serviceSchema } from '../schemas/service.schema'; import * as service from '../services/service.service';
+export async function list(req: Request, res: Response): Promise<void> { const q=paginationSchema.parse(req.query); res.json({ success:true,data:await service.listServices(req.user!.barberId,q.page,q.limit) }); }
+export async function create(req: Request,res:Response):Promise<void>{ const id=await service.createService(req.user!.barberId,serviceSchema.parse(req.body)); res.status(201).json({success:true,data:{serviceId:id}}); }
+export async function update(req:Request,res:Response):Promise<void>{ await service.updateService(req.user!.barberId,idSchema.parse(req.params).id,serviceSchema.parse(req.body)); res.status(204).send(); }
+export async function remove(req:Request,res:Response):Promise<void>{ await service.deactivateService(req.user!.barberId,idSchema.parse(req.params).id); res.status(204).send(); }

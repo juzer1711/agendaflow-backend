@@ -1,0 +1,3 @@
+import type { Request, Response } from 'express'; import { idSchema, paginationSchema } from '../schemas/common'; import { customerSchema } from '../schemas/customer.schema'; import * as service from '../services/customer.service';
+export async function list(req:Request,res:Response):Promise<void>{const q=paginationSchema.parse(req.query);res.json({success:true,data:await service.listCustomers(req.user!.barberId,q.page,q.limit)});}
+export async function create(req:Request,res:Response):Promise<void>{const id=await service.createCustomer(req.user!.barberId,customerSchema.parse(req.body));res.status(201).json({success:true,data:{customerId:id}});}

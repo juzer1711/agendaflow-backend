@@ -1,0 +1,2 @@
+import { Router } from 'express'; import { withConnection } from '../config/database'; import { asyncHandler } from '../utils/async-handler';
+export const healthRouter=Router(); healthRouter.get('/',(_req,res)=>res.json({success:true,data:{status:'ok'}})); healthRouter.get('/oracle',asyncHandler(async (_req,res)=>{await withConnection(c=>c.execute('SELECT 1 FROM DUAL'));res.json({success:true,data:{status:'ok'}});}));

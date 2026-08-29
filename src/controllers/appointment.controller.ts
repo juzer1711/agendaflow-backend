@@ -1,0 +1,6 @@
+import type { Request, Response } from 'express'; import { appointmentSchema } from '../schemas/appointment.schema'; import { idSchema, paginationSchema } from '../schemas/common'; import * as service from '../services/appointment.service';
+export async function list(req:Request,res:Response):Promise<void>{const q=paginationSchema.parse(req.query);res.json({success:true,data:await service.listAppointments(req.user!.barberId,q.page,q.limit)});}
+export async function today(req:Request,res:Response):Promise<void>{res.json({success:true,data:await service.listToday(req.user!.barberId)});}
+export async function next(req:Request,res:Response):Promise<void>{const row=await service.nextAppointment(req.user!.barberId);res.json(row?{success:true,data:row}:{success:true,data:null,message:'No tienes próximas citas.'});}
+export async function create(req:Request,res:Response):Promise<void>{const id=await service.createAppointment(req.user!.barberId,appointmentSchema.parse(req.body));res.status(201).json({success:true,data:{appointmentId:id}});}
+export async function cancel(req:Request,res:Response):Promise<void>{await service.cancelAppointment(req.user!.barberId,idSchema.parse(req.params).id);res.status(204).send();}

@@ -1,0 +1,2 @@
+import { Router } from 'express'; import * as c from '../controllers/schedule.controller'; import { asyncHandler } from '../utils/async-handler';
+export const scheduleRouter=Router(); scheduleRouter.get('/',asyncHandler(c.list)); scheduleRouter.post('/',asyncHandler(c.create)); scheduleRouter.delete('/:id',asyncHandler(c.remove)); scheduleRouter.get('/exceptions',asyncHandler(c.listExceptions)); scheduleRouter.post('/exceptions',asyncHandler(c.createException));

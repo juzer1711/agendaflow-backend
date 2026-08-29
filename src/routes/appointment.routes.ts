@@ -1,0 +1,2 @@
+import { Router } from 'express'; import * as c from '../controllers/appointment.controller'; import { asyncHandler } from '../utils/async-handler';
+export const appointmentRouter=Router(); appointmentRouter.get('/',asyncHandler(c.list)); appointmentRouter.get('/today',asyncHandler(c.today)); appointmentRouter.get('/next',asyncHandler(c.next)); appointmentRouter.post('/',asyncHandler(c.create)); appointmentRouter.patch('/:id/cancel',asyncHandler(c.cancel));
